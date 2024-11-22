@@ -1,0 +1,71 @@
+package net.mausberg.authentication_framework_backend.service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
+import net.mausberg.authentication_framework_backend.model.AppUser;
+
+@Service
+public class MailService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(MailService.class);
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
+	@Value("${spring.mail.from}")
+	private String fromEmail;
+	
+	@Value("${frontend.url}")
+	private String frontendUrl; 
+	
+	public void sendRegistrationEmail(AppUser appUser) throws MessagingException{
+		String mail = appUser.getMail();
+		String subject = "Herzlich Wilkommen";
+		
+		String body = "<html>"
+				+ "<body>"
+				+ "<p>Herzlich Willkommen " + appUser.getFirstName() + ",</p>"
+				+ "<p>Hier ist dein Verifizierungslink:</p>"
+				+ "<p><a href=\"" + frontendUrl + "/verify?token=" + appUser.getVerificationToken() + "\">"
+				+ "Verifiziere jetzt dein Konto</a></p>"
+				+ "<p>Mit freundlichen Grüßen,<br/>Das Team</p>"
+				+ "</body>"
+				+ "</html>";
+
+		sendMail(subject, body, mail);
+	}
+	
+	public void sendPasswordResetTokenEmail(AppUser appUser) throws MessagingException {
+		String mail = appUser.getMail();
+		String subject = "Password Reset";
+		
+		String body = "<html>"
+				+ "<body>"
+				+ "<p>Hallo " + appUser.getFirstName() + ",</p>"
+				+ "<p>Klicke hier, um dein Passwort zurückzusetzen:</p>"
+				+ "<p><a href=\"" + frontendUrl + "/passwordresetverification?token=" + appUser.getPasswordResetToken() + "\">"
+				+ "Password zurücksetzen</a></p>"
+				+ "<p>Mit freundlichen Grüßen,<br/>Das Team</p>"
+				+ "</body>"
+				+ "</html>";
+
+		sendMail(subject, body, mail);
+	}
+	
+	public void sendMail(String subject, String body, String recipient) throws MessagingException {
+			MimeMessage message = mailSender.createMimeMessage();
+			message.setFrom(fromEmail);
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient)); // Corrected this line
+			message.setSubject(subject);
+			message.setContent(body, "text/html; charset=utf-8");
+
+			mailSender.send(message);
+
+	}
+}
