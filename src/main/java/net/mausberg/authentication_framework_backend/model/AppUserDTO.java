@@ -1,7 +1,6 @@
 package net.mausberg.authentication_framework_backend.model;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;

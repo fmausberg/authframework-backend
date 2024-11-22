@@ -14,8 +14,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import net.mausberg.authentication_framework_backend.service.AppUserService;
-
 @Configuration
 public class SecurityConfig {
 

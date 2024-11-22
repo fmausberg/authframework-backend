@@ -1,7 +1,5 @@
 package net.mausberg.authentication_framework_backend.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -12,8 +10,6 @@ import net.mausberg.authentication_framework_backend.model.AppUser;
 
 @Service
 public class MailService {
-	
-	private static final Logger logger = LoggerFactory.getLogger(MailService.class);
 	
 	@Autowired
 	private JavaMailSender mailSender;

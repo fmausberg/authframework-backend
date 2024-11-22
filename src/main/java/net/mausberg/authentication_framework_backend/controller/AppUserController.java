@@ -1,7 +1,5 @@
 package net.mausberg.authentication_framework_backend.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
@@ -15,8 +13,6 @@ import net.mausberg.authentication_framework_backend.service.AppUserService;
 @RestController
 @RequestMapping("/api/v0/appuser")
 public class AppUserController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
    
 	private final AppUserService appUserService;
 
