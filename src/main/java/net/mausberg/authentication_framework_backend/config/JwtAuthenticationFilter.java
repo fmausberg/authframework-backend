@@ -45,6 +45,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				|| path.equals("/api/v0/auth/register")
 				|| path.equals("/api/v0/auth/verifyMail")
 				|| path.equals("/api/v0/auth/directlogin")
+				|| path.equals("/api/v0/auth/requestnewpassword")
+				|| path.equals("/api/v0/auth/loginWithPasswordResetToken")
 			){
 			logger.debug("JwtAuthenticationFilter.doFilterInternal().path = " + path + " doesn't need JWT");
 			chain.doFilter(request, response);

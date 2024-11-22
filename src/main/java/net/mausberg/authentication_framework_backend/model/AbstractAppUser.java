@@ -39,7 +39,7 @@ public abstract class AbstractAppUser implements UserDetails{
 	private String source;
 	private String oAuthProviderID;
 	private String passwordResetToken;
-	private String passwordResetTokenCreatedAt;
+	private LocalDateTime passwordResetTokenCreatedAt;
 	
 	@ElementCollection(fetch = FetchType.EAGER)  // Store roles in a Set
 	@CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))

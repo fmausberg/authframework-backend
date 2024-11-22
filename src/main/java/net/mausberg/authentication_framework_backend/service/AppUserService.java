@@ -101,6 +101,14 @@ public class AppUserService implements UserDetailsService{
 
 		return appUser; // Wenn alles passt, den Benutzer zurückgeben
 	}
+	
+	public AppUser authenticateByPasswordResetToken(String passwordResetToken) {
+		AppUser appUser = appUserRepository.findByPasswordResetToken(passwordResetToken);
+		if (appUser == null) {
+			throw new RuntimeException("Password Reset Token not Valid: " + passwordResetToken);
+		}
+		return appUser;
+	}
 
 
 	public String generateToken(AppUser appUser) {
@@ -146,24 +154,33 @@ public class AppUserService implements UserDetailsService{
 		}
 	}
 
-	public AppUser sendNewPasswordVerificationLink(String mail) throws MessagingException {
-		AppUser appUser = appUserRepository.findByMail(mail);
+	public void sendPasswordResetLink(String mail) throws MessagingException {
+	    AppUser appUser = appUserRepository.findByMail(mail);
 
-		if (mail == null) {
-			throw new UsernameNotFoundException("User not found with email: " + mail);
-		}
+	    if (appUser == null) {
+	        throw new UsernameNotFoundException("User not found with email: " + mail);
+	    }
 
-		sendPasswordVerificationLink(appUser);
-		return appUser;
+	    String passwordResetToken = UUID.randomUUID().toString();
+	    appUser.setPasswordResetToken(passwordResetToken);
+	    appUser.setPasswordResetTokenCreatedAt(LocalDateTime.now());
+	    appUserRepository.save(appUser);
+
+	    mailService.sendPasswordResetTokenEmail(appUser);
 	}
-
-	public void sendPasswordVerificationLink(AppUser appUser) throws MessagingException {
-		String passwordResetToken = UUID.randomUUID().toString();
-		appUser.setPasswordResetToken(passwordResetToken);
-		appUserRepository.save(appUser);
-
-		mailService.sendPasswordResetTokenEmail(appUser);
-	}
+	
+    public AppUser resetPassword(AppUser appUser, String newPassword) {
+        appUser.setPassword(passwordEncoder.encode(newPassword));
+        appUser.setPasswordResetToken(null);
+        appUser.setPasswordResetTokenCreatedAt(LocalDateTime.now()); //updating the date to the time, when the password was last updated
+        appUserRepository.save(appUser);
+        return appUser;
+    }
+    
+    private boolean isTokenExpired(AppUser appUser) {
+        // Example: check expiration logic if you store token timestamps
+        return false;
+    }
 	
 	
 	// ------- Uitility Methods ----------//
@@ -184,4 +201,6 @@ public class AppUserService implements UserDetailsService{
 	public AppUser getAppUserByMail(String mail){
 		return this.appUserRepository.findByMail(mail);
 	}
+
+
 }

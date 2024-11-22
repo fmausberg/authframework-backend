@@ -45,7 +45,7 @@ public class MailService {
 				+ "<body>"
 				+ "<p>Hallo " + appUser.getFirstName() + ",</p>"
 				+ "<p>Klicke hier, um dein Passwort zurückzusetzen:</p>"
-				+ "<p><a href=\"" + frontendUrl + "/passwordresetverification?token=" + appUser.getPasswordResetToken() + "\">"
+				+ "<p><a href=\"" + frontendUrl + "/passwordreset?token=" + appUser.getPasswordResetToken() + "\">"
 				+ "Password zurücksetzen</a></p>"
 				+ "<p>Mit freundlichen Grüßen,<br/>Das Team</p>"
 				+ "</body>"

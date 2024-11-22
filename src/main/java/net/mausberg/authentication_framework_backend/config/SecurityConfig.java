@@ -36,6 +36,8 @@ public class SecurityConfig {
 				.requestMatchers("/api/v0/auth/register").permitAll()
 				.requestMatchers("/api/v0/auth/verifyMail").permitAll()
 				.requestMatchers("/api/v0/auth/directlogin").permitAll()
+				.requestMatchers("/api/v0/auth/requestnewpassword").permitAll()
+				.requestMatchers("/api/v0/auth/loginWithPasswordResetToken").permitAll()
 				.requestMatchers("/favicon.ico").permitAll()
 				.anyRequest().authenticated())
 			.sessionManagement(session -> session
