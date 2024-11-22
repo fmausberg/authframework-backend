@@ -100,8 +100,6 @@ public class AppUserService implements UserDetailsService{
 		return appUserToBeUpdated;
 	}
 	
-
-
 	// --------- Authentication & Authorization --------- //
 	
 	public boolean canCreateAppUser(Authentication authentication) {
@@ -211,16 +209,9 @@ public class AppUserService implements UserDetailsService{
         appUser.setPasswordResetTokenCreatedAt(LocalDateTime.now()); //updating the date to the time, when the password was last updated
         appUserRepository.save(appUser);
         return appUser;
-    }
-    
-    private boolean isTokenExpired(AppUser appUser) {
-        // Example: check expiration logic if you store token timestamps
-        return false;
-    }
-	
+    }	
 	
 	// ------- Uitility Methods ----------//
-
 	
 	public long getAppUserCount() {
 		return appUserRepository.count();

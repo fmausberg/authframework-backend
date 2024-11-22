@@ -25,6 +25,7 @@ public abstract class AbstractAppUser implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private String username;
 	private String publicName;
 	private String firstName;
