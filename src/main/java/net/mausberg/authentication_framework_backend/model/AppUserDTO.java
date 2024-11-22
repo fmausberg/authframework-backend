@@ -1,5 +1,6 @@
 package net.mausberg.authentication_framework_backend.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ public class AppUserDTO {
 	private String publicName;
 	private String firstName;
 	private String lastName;
-	private LocalDateTime birthday;
+	private LocalDate birthday;
 	private String mail;
 	private String createdAt;
 	private LocalDateTime mailVerifiedAt;

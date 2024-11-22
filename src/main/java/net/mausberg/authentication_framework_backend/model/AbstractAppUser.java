@@ -1,6 +1,6 @@
 package net.mausberg.authentication_framework_backend.model;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,7 +29,7 @@ public abstract class AbstractAppUser implements UserDetails{
 	private String publicName;
 	private String firstName;
 	private String lastName;
-	private LocalDateTime birthday;
+	private LocalDate birthday;
 	private String password;
 	private String mail;
 	private String createdAt;

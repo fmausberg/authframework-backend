@@ -20,6 +20,7 @@ import jakarta.persistence.*;
 
 import net.mausberg.authentication_framework_backend.config.JwtUtil;
 import net.mausberg.authentication_framework_backend.model.AppUser;
+import net.mausberg.authentication_framework_backend.model.AppUserDTO;
 import net.mausberg.authentication_framework_backend.repository.AppUserRepository;
 
 @Service
@@ -43,7 +44,7 @@ public class AppUserService implements UserDetailsService{
 		this.passwordEncoder = passwordEncoder;
 	}
 	
-	// ----------------- User Creation ----------------- //
+	// ------------ User Creation & Operation ----------- //
 	
 	public AppUser createAppUser(String mail, String password, AppUser creator, boolean sendMail, String firstName, String lastName, String source) throws MessagingException {
 		
@@ -73,10 +74,45 @@ public class AppUserService implements UserDetailsService{
 		return appUserRepository.save(appUser);
 	}
 	
+	public AppUser updateUserAttributes(AppUser principal, AppUserDTO updatedAppuserDTO) throws Exception {
+		
+		AppUser appUserToBeUpdated = appUserRepository.findByUsername(principal.getUsername());
+		
+		if (!canUpdateAppuser(principal, appUserToBeUpdated)) {
+			throw new Exception("Not allowed to change AppUser Data");
+		}
+		
+        if (updatedAppuserDTO.getPublicName() != null) {
+        	appUserToBeUpdated.setPublicName(updatedAppuserDTO.getPublicName());
+        }
+        if (updatedAppuserDTO.getFirstName() != null) {
+        	appUserToBeUpdated.setFirstName(updatedAppuserDTO.getFirstName());
+        }
+        if (updatedAppuserDTO.getLastName() != null) {
+        	appUserToBeUpdated.setLastName(updatedAppuserDTO.getLastName());
+        }
+        if (updatedAppuserDTO.getBirthday() != null) {
+        	appUserToBeUpdated.setBirthday(updatedAppuserDTO.getBirthday());
+        }
+        
+        appUserRepository.save(appUserToBeUpdated);
+		
+		return appUserToBeUpdated;
+	}
+	
+
+
 	// --------- Authentication & Authorization --------- //
 	
 	public boolean canCreateAppUser(Authentication authentication) {
 		return true;
+	}
+	
+	private boolean canUpdateAppuser(AppUser subject, AppUser object) {
+		if (subject.getId() == object.getId()) {
+			return true;
+		}
+		return false;
 	}
 	
 	public AppUser authenticate(Map<String, String> credentials) {
@@ -201,6 +237,5 @@ public class AppUserService implements UserDetailsService{
 	public AppUser getAppUserByMail(String mail){
 		return this.appUserRepository.findByMail(mail);
 	}
-
 
 }

@@ -1,9 +1,12 @@
 package net.mausberg.authentication_framework_backend.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import net.mausberg.authentication_framework_backend.model.AppUser;
@@ -44,6 +47,15 @@ public class AppUserController {
 			String errorMessage = "An unexpected error occurred: " + e.getMessage();
 			return new ResponseEntity<>(new ErrorResponse(errorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@PostMapping("/updateme")
+	public ResponseEntity<?> updateAppUserDTO(@RequestBody AppUserDTO appUserDTO, Authentication authentication) throws Exception{
+	    AppUser principal = appUserService.getAppUserByMail(authentication.getName());
+	    
+	    AppUser updatedUser = appUserService.updateUserAttributes(principal, appUserDTO);
+		
+		return ResponseEntity.ok(new AppUserDTO(updatedUser));	
 	}
 	
 	@GetMapping("/me")
