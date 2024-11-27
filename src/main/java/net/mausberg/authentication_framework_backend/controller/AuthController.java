@@ -46,8 +46,9 @@ public class AuthController {
 
 		AppUser appUser = appUserService.verifyMailByToken(verificationToken);
 		Map<String, Object> response = new HashMap<>();
-		response.put("jwttoken", appUserService.generateToken(appUser));
-		response.put("appUser", new AppUserDTO(appUser));			
+		//response.put("jwttoken", appUserService.generateToken(appUser));
+		//response.put("appUser", new AppUserDTO(appUser));
+		response.put("firstName", appUser.getFirstName());
 		return ResponseEntity.ok(response);
 	}
 	

@@ -30,7 +30,7 @@ public class MailService {
 				+ "<p>Hier ist dein Verifizierungslink:</p>"
 				+ "<p><a href=\"" + frontendUrl + "/verify?token=" + appUser.getVerificationToken() + "\">"
 				+ "Verifiziere jetzt dein Konto</a></p>"
-				+ "<p>Mit freundlichen Grüßen,<br/>Das Team</p>"
+				+ "<p>Mit freundlichen Grüßen,<br/>Felix</p>"
 				+ "</body>"
 				+ "</html>";
 
@@ -47,7 +47,7 @@ public class MailService {
 				+ "<p>Klicke hier, um dein Passwort zurückzusetzen:</p>"
 				+ "<p><a href=\"" + frontendUrl + "/passwordreset?token=" + appUser.getPasswordResetToken() + "\">"
 				+ "Password zurücksetzen</a></p>"
-				+ "<p>Mit freundlichen Grüßen,<br/>Das Team</p>"
+				+ "<p>Mit freundlichen Grüßen,<br/>Felix</p>"
 				+ "</body>"
 				+ "</html>";
 
