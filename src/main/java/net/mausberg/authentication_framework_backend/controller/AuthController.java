@@ -93,6 +93,7 @@ public class AuthController {
 	
 	@PostMapping("/reset-password")
 	public ResponseEntity<?> resetPassword(@RequestBody String newPassword, Authentication authentication) {
+		// set principal with logged-in user
 		AppUser principal = appUserService.getAppUserByMail(authentication.getName());
 		principal = appUserService.resetPassword(principal, newPassword);
 		Map<String, Object> response = new HashMap<>();
