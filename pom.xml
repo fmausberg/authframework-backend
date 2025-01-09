@@ -11,6 +11,7 @@
 	<groupId>com.mausberg</groupId>
 	<artifactId>authentication-framework-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>authentication-framework-backend</name>
 	<description>The Back End of my Authentication Framework</description>
 	<url/>
@@ -49,6 +50,13 @@
 			<artifactId>mariadb-java-client</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <scope>runtime</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -105,7 +113,29 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-surefire-plugin</artifactId>
+	            <configuration>
+	                <useSystemClassLoader>false</useSystemClassLoader>
+	                <systemPropertyVariables>
+	                    <spring.profiles.active>test</spring.profiles.active>
+	                </systemPropertyVariables>
+	            </configuration>
+	        </plugin>
 		</plugins>
 	</build>
+	
+	<profiles>
+	    <profile>
+	        <id>test</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>
+	        <properties>
+	            <spring.profiles.active>test</spring.profiles.active>
+	        </properties>
+	    </profile>
+	</profiles>
 
 </project>
