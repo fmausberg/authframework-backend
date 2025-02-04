@@ -12,6 +12,12 @@
 	<artifactId>authentication-framework-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
+	<distributionManagement>
+	    <repository>
+	        <id>github</id>
+	        <url>https://maven.pkg.github.com/fmausberg/authentication-framework</url>
+	    </repository>
+	</distributionManagement>
 	<name>authentication-framework-backend</name>
 	<description>The Back End of my Authentication Framework</description>
 	<url/>
