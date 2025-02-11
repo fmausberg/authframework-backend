@@ -1,0 +1,18 @@
+version: '3.5'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: af-mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: authentication-framework-database
+      MYSQL_USER: javaaccess
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+volumes:
+  mariadb_data:
