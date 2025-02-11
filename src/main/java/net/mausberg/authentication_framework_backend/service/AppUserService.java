@@ -17,13 +17,14 @@ import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
 import jakarta.persistence.*;
-
+import lombok.RequiredArgsConstructor;
 import net.mausberg.authentication_framework_backend.config.JwtUtil;
 import net.mausberg.authentication_framework_backend.model.AppUser;
 import net.mausberg.authentication_framework_backend.model.AppUserDTO;
 import net.mausberg.authentication_framework_backend.repository.AppUserRepository;
 
 @Service
+@RequiredArgsConstructor
 public class AppUserService implements UserDetailsService{
 	
 	private static final Logger logger = LoggerFactory.getLogger(AppUserService.class);
@@ -32,17 +33,6 @@ public class AppUserService implements UserDetailsService{
 	private final MailService mailService;
 	private final JwtUtil jwtUtil;
 	private final PasswordEncoder passwordEncoder;
-
-	@Autowired
-	public AppUserService(AppUserRepository appUserRepository, 
-						  MailService mailService, 
-						  JwtUtil jwtUtil, 
-						  PasswordEncoder passwordEncoder) {
-		this.appUserRepository = appUserRepository;
-		this.mailService = mailService;
-		this.jwtUtil = jwtUtil;
-		this.passwordEncoder = passwordEncoder;
-	}
 	
 	// ------------ User Creation & Operation ----------- //
 	
