@@ -51,6 +51,7 @@ public class JwtUtil {
 	}
 	
 	// Extracts the roles from the JWT token
+	@SuppressWarnings("unchecked")
 	public Set<String> getRolesFromToken(String token) {
 		Claims claims = Jwts.parser()
 				.setSigningKey(jwtSecret)
