@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.mail.MessagingException;
 import net.mausberg.authentication_framework_backend.config.JwtTokenExpiredException;
+import net.mausberg.authentication_framework_backend.model.*;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
