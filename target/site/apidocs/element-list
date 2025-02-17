@@ -1,0 +1,6 @@
+net.mausberg.authentication_framework_backend
+net.mausberg.authentication_framework_backend.config
+net.mausberg.authentication_framework_backend.controller
+net.mausberg.authentication_framework_backend.model
+net.mausberg.authentication_framework_backend.repository
+net.mausberg.authentication_framework_backend.service
