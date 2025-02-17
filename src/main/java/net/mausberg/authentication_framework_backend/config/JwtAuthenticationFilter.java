@@ -18,8 +18,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import org.springframework.lang.NonNull;
-
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
