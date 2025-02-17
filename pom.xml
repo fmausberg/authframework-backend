@@ -11,7 +11,7 @@
     
     <groupId>net.mausberg</groupId>
     <artifactId>authentication-framework-backend</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
     <packaging>jar</packaging>
     
     <name>authentication-framework-backend</name>
