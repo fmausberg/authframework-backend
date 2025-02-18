@@ -39,6 +39,8 @@ public class SecurityConfig {
 				.requestMatchers("/api/v0/auth/requestnewpassword").permitAll()
 				.requestMatchers("/api/v0/auth/loginWithPasswordResetToken").permitAll()
 				.requestMatchers("/favicon.ico").permitAll()
+				.requestMatchers("/swagger-ui/**").permitAll()
+				.requestMatchers("/v3/api-docs/**").permitAll()
 				.anyRequest().authenticated())
 			.sessionManagement(session -> session
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
