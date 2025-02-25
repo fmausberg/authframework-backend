@@ -55,6 +55,16 @@ public class AuthController {
                 "Direct");						// source
         return ResponseEntity.status(201).body(new AppUserDTO(appUser)); 
     }
+
+    @PostMapping("/sendVerifcationMail")
+    public ResponseEntity<?> resendVerificationMail(@RequestBody String username, Authentication authentication) throws MessagingException {
+        AppUser appUser = appUserService.getAppUserByUsername(username);
+        if (appUser == null) {
+            return new ResponseEntity<>(new ErrorResponse("User not found"), HttpStatus.NOT_FOUND);
+        }
+        appUserService.resendVerificationMail(appUser);
+        return ResponseEntity.ok(Map.of("message", "Verification mail has been sent."));
+    }
     
     /**
      * Verifies the user's email using the verification token.

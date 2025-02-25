@@ -62,6 +62,16 @@ public class AppUserService implements UserDetailsService{
 
 		return appUserRepository.save(appUser);
 	}
+
+	public AppUser resendVerificationMail(AppUser appUser) throws MessagingException{
+		String verificationToken = UUID.randomUUID().toString(); // This will generate a unique token
+		appUser.setVerificationToken(verificationToken);
+		appUser.setVerificationTokenCreatedAt(LocalDateTime.now());
+		
+		mailService.sendRegistrationEmail(appUser);
+
+		return appUserRepository.save(appUser);
+	}
 	
 	public AppUser updateUserAttributes(AppUser principal, AppUserDTO updatedAppuserDTO) throws Exception {
 		
