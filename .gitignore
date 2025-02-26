@@ -2,28 +2,6 @@
 .DS_Store
 Thumbs.db
 
-# --- React Frontend ---
-
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-pnpm-debug.log*
-.vscode/
-
-# Dependency directories
-node_modules/
-
-# Build outputs
-dist/
-build/
-
-# Environment files
-.env
-.env.local
-.env.*.local
-
 # --- Java Spring Boot Backend ---
 
 # Compiled class files
@@ -44,7 +22,7 @@ build/
 *.project
 .settings/
 
-# IntelliJ IDEA specific files (optional, in case you switch IDEs)
+# IntelliJ IDEA specific files
 .idea/
 *.iml
 out/
@@ -55,7 +33,7 @@ out/
 *.swp
 *.swo
 
-# --- Common Exclusions for Both Frontend and Backend ---
+# --- Common Exclusions ---
 
 # Local environment configuration files
 .env
@@ -100,9 +78,3 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
-### Environment Variables ###
-.env
