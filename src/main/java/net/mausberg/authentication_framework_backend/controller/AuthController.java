@@ -57,7 +57,8 @@ public class AuthController {
     }
 
     @PostMapping("/sendVerifcationMail")
-    public ResponseEntity<?> resendVerificationMail(@RequestBody String username, Authentication authentication) throws MessagingException {
+    public ResponseEntity<?> resendVerificationMail(@RequestBody Map<String, String> request, Authentication authentication) throws MessagingException {
+        String username = request.get("username");
         AppUser appUser = appUserService.getAppUserByUsername(username);
         if (appUser == null) {
             return new ResponseEntity<>(new ErrorResponse("User not found"), HttpStatus.NOT_FOUND);
