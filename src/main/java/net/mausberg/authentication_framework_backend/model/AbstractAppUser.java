@@ -33,6 +33,7 @@ public abstract class AbstractAppUser implements UserDetails{
 	private LocalDate birthday;
 	private String password;
 	private String mail;
+	private String phone;
 	private String createdAt;
 	private LocalDateTime mailVerifiedAt;
 	private String verificationToken;

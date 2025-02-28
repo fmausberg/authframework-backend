@@ -22,6 +22,7 @@ public class AppUserDTO {
 	private String lastName;
 	private LocalDate birthday;
 	private String mail;
+	private String phone;
 	private String createdAt;
 	private LocalDateTime mailVerifiedAt;
 	private LocalDateTime verificationTokenCreatedAt;
@@ -38,6 +39,7 @@ public class AppUserDTO {
 		this.lastName = appUser.getLastName();
 		this.birthday = appUser.getBirthday();
 		this.mail = appUser.getMail();
+		this.phone = appUser.getPhone();
 		this.createdAt = appUser.getCreatedAt();
 		this.mailVerifiedAt = appUser.getMailVerifiedAt();
 		this.verificationTokenCreatedAt = appUser.getVerificationTokenCreatedAt();
