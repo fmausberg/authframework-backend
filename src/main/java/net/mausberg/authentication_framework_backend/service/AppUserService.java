@@ -93,6 +93,9 @@ public class AppUserService implements UserDetailsService{
         if (updatedAppuserDTO.getBirthday() != null) {
         	appUserToBeUpdated.setBirthday(updatedAppuserDTO.getBirthday());
         }
+		if (updatedAppuserDTO.getPhone() != null) {
+        	appUserToBeUpdated.setPhone(updatedAppuserDTO.getPhone());
+        }
         
         appUserRepository.save(appUserToBeUpdated);
 		
