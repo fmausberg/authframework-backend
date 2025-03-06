@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class DatabaseReachableCondition implements Condition {
 
     @Override
-    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+    public boolean matches(@SuppressWarnings("null") ConditionContext context, @SuppressWarnings("null") AnnotatedTypeMetadata metadata) {
         String dbUrl = context.getEnvironment().getProperty("DB_URL");
         String dbUsername = context.getEnvironment().getProperty("DB_USERNAME");
         String dbPassword = context.getEnvironment().getProperty("DB_PASSWORD");
