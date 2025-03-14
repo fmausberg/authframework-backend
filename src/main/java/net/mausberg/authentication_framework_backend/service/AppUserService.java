@@ -45,7 +45,7 @@ public class AppUserService implements UserDetailsService{
 
         appUser = parAppUser;
 
-        appUser.setCreatedAt(LocalDateTime.now().toString());
+        appUser.setCreatedAt(LocalDateTime.now());
         appUser.setRoles(Set.of("ROLE_USER"));
         
         String verificationToken = UUID.randomUUID().toString(); // This will generate a unique token
@@ -74,7 +74,7 @@ public class AppUserService implements UserDetailsService{
         appUser.setFirstName(firstName);
         appUser.setLastName(lastName);
         appUser.setPassword(passwordEncoder.encode(password));
-        appUser.setCreatedAt(LocalDateTime.now().toString());
+        appUser.setCreatedAt(LocalDateTime.now());
         appUser.setRoles(Set.of("ROLE_USER"));
         
         String verificationToken = UUID.randomUUID().toString(); // This will generate a unique token
