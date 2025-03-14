@@ -1,5 +1,7 @@
 package net.mausberg.authentication_framework_backend.controller;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
@@ -75,8 +77,22 @@ public class AppUserController {
      * @throws Exception if an error occurs while updating the user
      */
     @PostMapping("/updateme")
+    public ResponseEntity<?> updateMeAppUserDTO(@RequestBody AppUserDTO appUserDTO, Authentication authentication) throws Exception {
+        AppUser principal = appUserService.getAppUserByMail(authentication.getName());
+        AppUser updatedUser = appUserService.updateUserAttributes(principal, appUserDTO);
+        return ResponseEntity.ok(new AppUserDTO(updatedUser));	
+    }
+
+    @PostMapping("/update")
     public ResponseEntity<?> updateAppUserDTO(@RequestBody AppUserDTO appUserDTO, Authentication authentication) throws Exception {
         AppUser principal = appUserService.getAppUserByMail(authentication.getName());
+        for (String attribute : Set.of("publicName", "firstName", "lastName", "birthday", "phone")) {
+            if (appUserDTO.getClass().getMethod("get" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1)).invoke(appUserDTO) != null) {
+                if (!appUserService.hasPermissionToUpdate(principal, attribute)) {
+                    return new ResponseEntity<>(new ErrorResponse("Access denied: You do not have permission to update " + attribute), HttpStatus.FORBIDDEN);
+                }
+            }
+        }
         AppUser updatedUser = appUserService.updateUserAttributes(principal, appUserDTO);
         return ResponseEntity.ok(new AppUserDTO(updatedUser));	
     }

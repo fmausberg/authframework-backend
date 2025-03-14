@@ -23,7 +23,7 @@ public class AppUserDTO {
 	private LocalDate birthday;
 	private String mail;
 	private String phone;
-	private String createdAt;
+	private LocalDateTime createdAt;
 	private LocalDateTime mailVerifiedAt;
 	private LocalDateTime verificationTokenCreatedAt;
 	private String source;

@@ -27,14 +27,14 @@ public abstract class AbstractAppUser implements UserDetails{
 	private Long id;
 	
 	private String username;
-	private String publicName;
-	private String firstName;
-	private String lastName;
-	private LocalDate birthday;
+	private String publicName; //changeable
+	private String firstName; //changeable
+	private String lastName; //changeable
+	private LocalDate birthday; 
 	private String password;
 	private String mail;
 	private String phone;
-	private String createdAt;
+	private LocalDateTime createdAt;
 	private LocalDateTime mailVerifiedAt;
 	private String verificationToken;
 	private LocalDateTime verificationTokenCreatedAt;

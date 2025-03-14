@@ -45,17 +45,19 @@ public class AuthController {
      */
     @PostMapping("/register")
     public ResponseEntity<?> registerAppUser(@RequestBody AppUser appUserRequest) throws MessagingException {
-        AppUser appUser = appUserService.createAppUser(
-                appUserRequest.getMail(),		// mail
-                appUserRequest.getPassword(),	// password
-                null,							// creator
-                true,							// sendMail
-                appUserRequest.getFirstName(),	// firstName
-                appUserRequest.getLastName(),	// lastName
-                "Direct");						// source
+        appUserRequest.setSource("Direct");
+        AppUser appUser = appUserService.createAppUser(appUserRequest, true);
         return ResponseEntity.status(201).body(new AppUserDTO(appUser)); 
     }
 
+    /**
+     * Resends the verification email to the user.
+     * 
+     * @param request a map containing the username
+     * @param authentication the authentication object containing the user's details
+     * @return a response entity containing a success message
+     * @throws MessagingException if an error occurs while sending the verification email
+     */
     @PostMapping("/sendVerifcationMail")
     public ResponseEntity<?> resendVerificationMail(@RequestBody Map<String, String> request, Authentication authentication) throws MessagingException {
         String username = request.get("username");
