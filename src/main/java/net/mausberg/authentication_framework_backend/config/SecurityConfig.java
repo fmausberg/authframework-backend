@@ -1,6 +1,10 @@
 package net.mausberg.authentication_framework_backend.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -23,6 +27,9 @@ public class SecurityConfig {
 	public SecurityConfig(@Lazy JwtAuthenticationFilter jwtFilter) {
 		this.jwtFilter = jwtFilter;
 	}
+
+	@Value("${ALLOWED_ORIGINS}")
+    private String allowedOrigins;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -59,8 +66,11 @@ public class SecurityConfig {
 	public UrlBasedCorsConfigurationSource corsConfigurationSource() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
+
+		List<String> allowedOriginList = Arrays.asList(allowedOrigins.split(","));
+        allowedOriginList.forEach(config::addAllowedOrigin);
 		
-		config.addAllowedOrigin("*");  // Allow frontend origin
+		//config.addAllowedOrigin("*");  // Allow frontend origin
 		config.addAllowedMethod("*");  // Allow all methods (GET, POST, etc.)
 		config.addAllowedHeader("*");  // Allow all headers
 		config.setAllowCredentials(true);  // Allow credentials (cookies, authorization headers)
