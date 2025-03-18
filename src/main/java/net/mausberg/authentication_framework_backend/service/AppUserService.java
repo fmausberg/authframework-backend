@@ -44,7 +44,7 @@ public class AppUserService implements UserDetailsService{
         }
 
         appUser = parAppUser;
-
+        appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
         appUser.setCreatedAt(LocalDateTime.now());
         appUser.setRoles(Set.of("ROLE_USER"));
         
