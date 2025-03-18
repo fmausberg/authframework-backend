@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-
+// Test
 @SpringBootApplication(scanBasePackages = "net.mausberg.authentication_framework_backend")
 @EnableJpaRepositories(basePackages = "net.mausberg.authentication_framework_backend.repository")
 @EntityScan(basePackages = "net.mausberg.authentication_framework_backend.model")
