@@ -8,9 +8,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +16,7 @@ import jakarta.mail.MessagingException;
 import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import net.mausberg.authentication_framework_backend.config.JwtUtil;
-import net.mausberg.authentication_framework_backend.model.AppUser;
-import net.mausberg.authentication_framework_backend.model.AppUserDTO;
+import net.mausberg.authentication_framework_backend.model.*;
 import net.mausberg.authentication_framework_backend.repository.AppUserRepository;
 
 @Service
@@ -247,5 +244,22 @@ public class AppUserService implements UserDetailsService{
             "ROLE_ADMIN", Set.of("publicName", "firstName", "lastName", "birthday", "phone", "mail", "password"),
             "ROLE_USER", Set.of("publicName", "firstName", "lastName", "birthday", "phone")
         );
+    }
+
+    public Object getAppUserById(Long id, AppUser principal) {
+        AppUser appUser = appUserRepository.findById(id).orElse(null);
+
+        if (appUser == null) {
+            return null; // User not found
+        }
+
+        // Check if the principal matches the requested user
+        if (id.equals(principal.getId())) {
+            // Return full details if principal is the same as the requested user
+            return new AppUserDTO(appUser);
+        } else {
+            // Return limited details for others
+            return new AppUserDTOpublic(appUser);
+        }
     }
 }

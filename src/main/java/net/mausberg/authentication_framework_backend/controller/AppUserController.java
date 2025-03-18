@@ -105,5 +105,17 @@ public class AppUserController {
     public AppUserDTO getMyAppuserData() {
         return new AppUserDTO(appUserService.getAppUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getAppUser(@PathVariable Long id, Authentication authentication) {
+        AppUser principal = appUserService.getAppUserByMail(authentication.getName());
+        Object appUser = appUserService.getAppUserById(id, principal);
+
+        if (appUser != null) {
+            return new ResponseEntity<>(appUser, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 if user not found
+        }
+    }
     
 }
