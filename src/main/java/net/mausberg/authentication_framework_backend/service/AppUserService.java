@@ -8,9 +8,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +16,7 @@ import jakarta.mail.MessagingException;
 import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import net.mausberg.authentication_framework_backend.config.JwtUtil;
-import net.mausberg.authentication_framework_backend.model.AppUser;
-import net.mausberg.authentication_framework_backend.model.AppUserDTO;
+import net.mausberg.authentication_framework_backend.model.*;
 import net.mausberg.authentication_framework_backend.repository.AppUserRepository;
 
 @Service
@@ -60,34 +57,6 @@ public class AppUserService implements UserDetailsService{
 
     }
     
-    public AppUser createAppUser(String mail, String password, AppUser creator, boolean sendMail, String firstName, String lastName, String source) throws MessagingException {
-        
-        AppUser appUser = appUserRepository.findByMail(mail);
-        
-        if (appUser != null) {
-            throw new IllegalArgumentException("Email is already in use");
-        }
-
-        appUser = new AppUser();
-        appUser.setMail(mail);
-        appUser.setUsername(mail);
-        appUser.setFirstName(firstName);
-        appUser.setLastName(lastName);
-        appUser.setPassword(passwordEncoder.encode(password));
-        appUser.setCreatedAt(LocalDateTime.now());
-        appUser.setRoles(Set.of("ROLE_USER"));
-        
-        String verificationToken = UUID.randomUUID().toString(); // This will generate a unique token
-        appUser.setVerificationToken(verificationToken);
-        appUser.setVerificationTokenCreatedAt(LocalDateTime.now());
-        
-        if (sendMail) {
-            mailService.sendRegistrationEmail(appUser);
-        }
-
-        return appUserRepository.save(appUser);
-    }
-
     public AppUser resendVerificationMail(AppUser appUser) throws MessagingException{
         String verificationToken = UUID.randomUUID().toString(); // This will generate a unique token
         appUser.setVerificationToken(verificationToken);
@@ -275,5 +244,22 @@ public class AppUserService implements UserDetailsService{
             "ROLE_ADMIN", Set.of("publicName", "firstName", "lastName", "birthday", "phone", "mail", "password"),
             "ROLE_USER", Set.of("publicName", "firstName", "lastName", "birthday", "phone")
         );
+    }
+
+    public Object getAppUserById(Long id, AppUser principal) {
+        AppUser appUser = appUserRepository.findById(id).orElse(null);
+
+        if (appUser == null) {
+            return null; // User not found
+        }
+
+        // Check if the principal matches the requested user
+        if (id.equals(principal.getId())) {
+            // Return full details if principal is the same as the requested user
+            return new AppUserDTO(appUser);
+        } else {
+            // Return limited details for others
+            return new AppUserDTOpublic(appUser);
+        }
     }
 }
