@@ -60,34 +60,6 @@ public class AppUserService implements UserDetailsService{
 
     }
     
-    public AppUser createAppUser(String mail, String password, AppUser creator, boolean sendMail, String firstName, String lastName, String source) throws MessagingException {
-        
-        AppUser appUser = appUserRepository.findByMail(mail);
-        
-        if (appUser != null) {
-            throw new IllegalArgumentException("Email is already in use");
-        }
-
-        appUser = new AppUser();
-        appUser.setMail(mail);
-        appUser.setUsername(mail);
-        appUser.setFirstName(firstName);
-        appUser.setLastName(lastName);
-        appUser.setPassword(passwordEncoder.encode(password));
-        appUser.setCreatedAt(LocalDateTime.now());
-        appUser.setRoles(Set.of("ROLE_USER"));
-        
-        String verificationToken = UUID.randomUUID().toString(); // This will generate a unique token
-        appUser.setVerificationToken(verificationToken);
-        appUser.setVerificationTokenCreatedAt(LocalDateTime.now());
-        
-        if (sendMail) {
-            mailService.sendRegistrationEmail(appUser);
-        }
-
-        return appUserRepository.save(appUser);
-    }
-
     public AppUser resendVerificationMail(AppUser appUser) throws MessagingException{
         String verificationToken = UUID.randomUUID().toString(); // This will generate a unique token
         appUser.setVerificationToken(verificationToken);

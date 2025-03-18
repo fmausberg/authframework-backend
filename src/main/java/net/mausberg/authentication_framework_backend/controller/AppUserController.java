@@ -51,11 +51,10 @@ public class AppUserController {
     @PostMapping("/create")
     public ResponseEntity<?> createAppUser(@RequestBody AppUser appUserRequest, @RequestParam boolean sendMail, Authentication authentication) {
         try {
-            AppUser principal = appUserService.getAppUserByMail(authentication.getName());
             if (!appUserService.canCreateAppUser(authentication)) {
                 return new ResponseEntity<>(new ErrorResponse("Access denied: AppUser is not allowed to create new AppUsers"), HttpStatus.FORBIDDEN);
             }
-            AppUser appUser = appUserService.createAppUser(appUserRequest.getMail(), appUserRequest.getPassword(), principal, sendMail, null, null, "Indirect");
+            AppUser appUser = appUserService.createAppUser(appUserRequest, sendMail);
             return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             // Detailed exception handling
