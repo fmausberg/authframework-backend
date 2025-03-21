@@ -47,6 +47,8 @@ services:
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}  # Using ALLOWED_ORIGINS from .env
     depends_on:
       - mariadb
+    env_file:
+      - .env  # Ensure .env is loaded
 
 networks:
   authframework:
