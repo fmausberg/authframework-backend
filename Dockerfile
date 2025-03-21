@@ -4,11 +4,10 @@ FROM openjdk:21-jdk-slim
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the built JAR file into the container
-COPY target/authframework-backend.jar app.jar
+COPY target/authframework-backend.jar authframework-backend.jar
 
-# Expose port 8080 to the outside world
+# Make port 8080 available to the world outside the container
 EXPOSE 8080
 
 # Run the JAR file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "authframework-backend.jar"]

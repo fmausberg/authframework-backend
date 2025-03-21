@@ -1,18 +1,57 @@
-version: '3.5'
+version: '3.8'
 
 services:
+  # MariaDB container
   mariadb:
     image: mariadb:latest
-    container_name: af-mariadb
+    container_name: mariadb
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: authentication-framework-database
-      MYSQL_USER: javaaccess
-      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}  # Using password from .env
+      MYSQL_DATABASE: authframework
+    networks:
+      - authframework
     ports:
       - "3306:3306"
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql  # Persist data
+
+  # phpMyAdmin container
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mariadb
+    networks:
+      - authframework
+    ports:
+      - "8888:80"
+
+  # Spring Boot Backend container
+  authframework-backend:
+    build:
+      context: ./
+    container_name: authframework-backend
+    networks:
+      - authframework
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: ${DB_URL}  # Using DB_URL from .env
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}  # Using DB_USERNAME from .env
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}  # Using DB_PASSWORD from .env
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      JWT_SECRET: ${JWT_SECRET}  # Using JWT_SECRET from .env
+      FRONTEND_URL: ${FRONTEND_URL}  # Using FRONTEND_URL from .env
+      MAIL_USERNAME: ${MAIL_USERNAME}  # Using MAIL_USERNAME from .env
+      MAIL_PASSWORD: ${MAIL_PASSWORD}  # Using MAIL_PASSWORD from .env
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}  # Using ALLOWED_ORIGINS from .env
+    depends_on:
+      - mariadb
+
+networks:
+  authframework:
+    driver: bridge
 
 volumes:
   mariadb_data:
+    driver: local
