@@ -99,6 +99,7 @@
     </distributionManagement>
 
     <build>
+        <finalName>authframework-backend</finalName>
         <plugins>
             <!-- Maven Deploy Plugin -->
             <plugin>
