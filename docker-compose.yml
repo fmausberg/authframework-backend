@@ -28,8 +28,7 @@ services:
 
   # Spring Boot Backend container
   authframework-backend:
-    build:
-      context: ./
+    build: .
     container_name: authframework-backend
     networks:
       - authframework

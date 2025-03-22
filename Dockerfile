@@ -1,13 +1,9 @@
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:21-jdk-slim
-
-# Set the working directory in the container
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-COPY target/authframework-backend.jar authframework-backend.jar
-
-# Make port 8080 available to the world outside the container
-EXPOSE 8080
-
-# Run the JAR file
+FROM openjdk:21-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/authframework-backend.jar authframework-backend.jar
 ENTRYPOINT ["java", "-jar", "authframework-backend.jar"]
