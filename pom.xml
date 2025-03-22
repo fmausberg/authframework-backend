@@ -76,6 +76,7 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.3.1</version>
         </dependency>
+
         <dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -98,7 +99,6 @@
     </distributionManagement>
 
     <build>
-        <finalName>authframework-backend</finalName>
         <plugins>
             <!-- Maven Deploy Plugin -->
             <plugin>
