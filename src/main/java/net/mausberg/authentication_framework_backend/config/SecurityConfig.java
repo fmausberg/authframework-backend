@@ -70,7 +70,7 @@ public class SecurityConfig {
 		//List<String> allowedOriginList = Arrays.asList(allowedOrigins.split(","));
         //allowedOriginList.forEach(config::addAllowedOrigin);
 		
-		config.addAllowedOrigin("*");  // Allow frontend origin
+		config.setAllowedOrigins(List.of("http://212.227.100.131:3000")); // Allow only frontend
 		config.addAllowedMethod("*");  // Allow all methods (GET, POST, etc.)
 		config.addAllowedHeader("*");  // Allow all headers
 		config.setAllowCredentials(true);  // Allow credentials (cookies, authorization headers)
