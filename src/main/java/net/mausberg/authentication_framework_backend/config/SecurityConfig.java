@@ -70,7 +70,6 @@ public class SecurityConfig {
 		List<String> allowedOriginList = Arrays.asList(allowedOrigins.split(","));
     	config.setAllowedOrigins(allowedOriginList); // Use dynamic origins
 		
-		//config.setAllowedOrigins(List.of("http://212.227.100.131:3000")); // Allow only frontend
 		config.addAllowedMethod("*");  // Allow all methods (GET, POST, etc.)
 		config.addAllowedHeader("*");  // Allow all headers
 		config.setAllowCredentials(true);  // Allow credentials (cookies, authorization headers)

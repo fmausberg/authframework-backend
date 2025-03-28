@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import net.mausberg.authentication_framework_backend.model.*;
 import net.mausberg.authentication_framework_backend.service.AppUserService;
 
@@ -160,8 +161,9 @@ public class AuthController {
      * @return a greeting message
      */
     @GetMapping("/test")
-    public String test() {
-        return "Test successfull! Entpoint available";
+    public String test(HttpServletRequest request) {
+        String origin = request.getHeader("Origin");
+        return "Test successfull! Entpoint available! Origin: " + origin;
     }
 }
 

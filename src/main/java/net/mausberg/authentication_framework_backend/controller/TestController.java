@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -53,7 +54,8 @@ public class TestController {
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping("/check")
-    public Map<String, String> checkConnection() {
+    public Map<String, String> checkConnection(HttpServletRequest request) {
+        String origin = request.getHeader("Origin");
         Map<String, String> status = new HashMap<>();
 
         status.put("backend", "available");
@@ -61,6 +63,7 @@ public class TestController {
         // Check database availability
         String databaseStatus = databaseService.isDatabaseAvailable() ? "available" : "not available";
         status.put("database", databaseStatus);
+        status.put("origin", origin);
 
         return status;
     }
