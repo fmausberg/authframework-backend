@@ -51,7 +51,7 @@ services:
 
 networks:
   authframework:
-    driver: bridge
+    external: true
 
 volumes:
   mariadb_data:
