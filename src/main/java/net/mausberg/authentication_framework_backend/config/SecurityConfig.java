@@ -67,10 +67,10 @@ public class SecurityConfig {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 
-		List<String> allowedOriginList = Arrays.asList(allowedOrigins.split(","));
-        allowedOriginList.forEach(config::addAllowedOrigin);
+		//List<String> allowedOriginList = Arrays.asList(allowedOrigins.split(","));
+        //allowedOriginList.forEach(config::addAllowedOrigin);
 		
-		//config.addAllowedOrigin("*");  // Allow frontend origin
+		config.addAllowedOrigin("*");  // Allow frontend origin
 		config.addAllowedMethod("*");  // Allow all methods (GET, POST, etc.)
 		config.addAllowedHeader("*");  // Allow all headers
 		config.setAllowCredentials(true);  // Allow credentials (cookies, authorization headers)
