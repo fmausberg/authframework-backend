@@ -45,9 +45,10 @@ public class AuthController {
      * @throws MessagingException if an error occurs while sending the registration email
      */
     @PostMapping("/register")
-    public ResponseEntity<?> registerAppUser(@RequestBody AppUser appUserRequest) throws MessagingException {
+    public ResponseEntity<?> registerAppUser(@RequestBody AppUser appUserRequest, HttpServletRequest request) throws MessagingException {
         appUserRequest.setSource("Direct");
-        AppUser appUser = appUserService.createAppUser(appUserRequest, true);
+        String origin = request.getHeader("Origin");
+        AppUser appUser = appUserService.createAppUser(appUserRequest, true, origin);
         return ResponseEntity.status(201).body(new AppUserDTO(appUser)); 
     }
 
@@ -60,13 +61,14 @@ public class AuthController {
      * @throws MessagingException if an error occurs while sending the verification email
      */
     @PostMapping("/sendVerifcationMail")
-    public ResponseEntity<?> resendVerificationMail(@RequestBody Map<String, String> request, Authentication authentication) throws MessagingException {
+    public ResponseEntity<?> resendVerificationMail(@RequestBody Map<String, String> request, Authentication authentication, HttpServletRequest httprequest) throws MessagingException {
         String username = request.get("username");
         AppUser appUser = appUserService.getAppUserByUsername(username);
+        String origin = httprequest.getHeader("Origin");
         if (appUser == null) {
             return new ResponseEntity<>(new ErrorResponse("User not found"), HttpStatus.NOT_FOUND);
         }
-        appUserService.resendVerificationMail(appUser);
+        appUserService.resendVerificationMail(appUser, origin);
         return ResponseEntity.ok(Map.of("message", "Verification mail has been sent."));
     }
     
@@ -132,9 +134,10 @@ public class AuthController {
      * @throws MessagingException if an error occurs while sending the password reset email
      */
     @PostMapping("/requestnewpassword")
-    public ResponseEntity<?> requestNewPassword(@RequestBody String mail) throws MessagingException {
+    public ResponseEntity<?> requestNewPassword(@RequestBody String mail, HttpServletRequest request) throws MessagingException {
         mail = mail.trim().replaceAll("^\"|\"$", "");
-        appUserService.sendPasswordResetLink(mail);
+        String origin = request.getHeader("Origin");
+        appUserService.sendPasswordResetLink(mail, origin);
         return ResponseEntity.ok(Map.of("message", "Password reset instructions have been sent."));
     }
     

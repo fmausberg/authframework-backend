@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletRequest;
 import net.mausberg.authentication_framework_backend.model.*;
 import net.mausberg.authentication_framework_backend.service.AppUserService;
 
@@ -49,12 +50,13 @@ public class AppUserController {
      * @return a response entity containing the created app user
      */
     @PostMapping("/create")
-    public ResponseEntity<?> createAppUser(@RequestBody AppUser appUserRequest, @RequestParam boolean sendMail, Authentication authentication) {
+    public ResponseEntity<?> createAppUser(@RequestBody AppUser appUserRequest, @RequestParam boolean sendMail, Authentication authentication, HttpServletRequest httprequest) {
+        String origin = httprequest.getHeader("Origin");
         try {
             if (!appUserService.canCreateAppUser(authentication)) {
                 return new ResponseEntity<>(new ErrorResponse("Access denied: AppUser is not allowed to create new AppUsers"), HttpStatus.FORBIDDEN);
             }
-            AppUser appUser = appUserService.createAppUser(appUserRequest, sendMail);
+            AppUser appUser = appUserService.createAppUser(appUserRequest, sendMail, origin);
             return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             // Detailed exception handling

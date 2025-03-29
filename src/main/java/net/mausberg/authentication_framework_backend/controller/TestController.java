@@ -64,6 +64,8 @@ public class TestController {
         String databaseStatus = databaseService.isDatabaseAvailable() ? "available" : "not available";
         status.put("database", databaseStatus);
         status.put("origin", origin);
+        status.put("Check", "C1");
+        
 
         return status;
     }

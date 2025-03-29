@@ -17,10 +17,10 @@ public class MailService {
 	@Value("${spring.mail.username}")
 	private String fromEmail;
 	
-	@Value("${frontend.url}")
-	private String frontendUrl; 
+	//@Value("${frontend.url}")
+	//private String frontendUrl; 
 	
-	public void sendRegistrationEmail(AppUser appUser) throws MessagingException{
+	public void sendRegistrationEmail(AppUser appUser, String frontendUrl) throws MessagingException{
 		String mail = appUser.getMail();
 		String subject = "Herzlich Wilkommen";
 		
@@ -28,7 +28,7 @@ public class MailService {
 				+ "<body>"
 				+ "<p>Herzlich Willkommen " + appUser.getFirstName() + ",</p>"
 				+ "<p>Hier ist dein Verifizierungslink:</p>"
-				+ "<p><a href=\"" + frontendUrl + "/verify?token=" + appUser.getVerificationToken() + "\">"
+				+ "<p><a href=\"" + frontendUrl + "/auth/verifymail?token=" + appUser.getVerificationToken() + "\">"
 				+ "Verifiziere jetzt dein Konto</a></p>"
 				+ "<p>Mit freundlichen Grüßen,<br/>Felix</p>"
 				+ "</body>"
@@ -37,7 +37,7 @@ public class MailService {
 		sendMail(subject, body, mail);
 	}
 	
-	public void sendPasswordResetTokenEmail(AppUser appUser) throws MessagingException {
+	public void sendPasswordResetTokenEmail(AppUser appUser, String frontendUrl) throws MessagingException {
 		String mail = appUser.getMail();
 		String subject = "Password Reset";
 		

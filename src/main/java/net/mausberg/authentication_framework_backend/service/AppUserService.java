@@ -32,7 +32,7 @@ public class AppUserService implements UserDetailsService{
     
     // ------------ User Creation & Operation ----------- //
 
-    public AppUser createAppUser(AppUser parAppUser, boolean sendMail) throws MessagingException{
+    public AppUser createAppUser(AppUser parAppUser, boolean sendMail, String origin) throws MessagingException{
         AppUser appUser = appUserRepository.findByMail(parAppUser.getMail());
         
         //check if username already exists
@@ -50,19 +50,19 @@ public class AppUserService implements UserDetailsService{
         appUser.setVerificationTokenCreatedAt(LocalDateTime.now());
         
         if (sendMail) {
-            mailService.sendRegistrationEmail(appUser);
+            mailService.sendRegistrationEmail(appUser, origin);
         }
 
         return appUserRepository.save(appUser);
 
     }
     
-    public AppUser resendVerificationMail(AppUser appUser) throws MessagingException{
+    public AppUser resendVerificationMail(AppUser appUser, String origin) throws MessagingException{
         String verificationToken = UUID.randomUUID().toString(); // This will generate a unique token
         appUser.setVerificationToken(verificationToken);
         appUser.setVerificationTokenCreatedAt(LocalDateTime.now());
         
-        mailService.sendRegistrationEmail(appUser);
+        mailService.sendRegistrationEmail(appUser, origin);
 
         return appUserRepository.save(appUser);
     }
@@ -184,7 +184,7 @@ public class AppUserService implements UserDetailsService{
         }
     }
 
-    public void sendPasswordResetLink(String mail) throws MessagingException {
+    public void sendPasswordResetLink(String mail, String origin) throws MessagingException {
         AppUser appUser = appUserRepository.findByMail(mail);
 
         if (appUser == null) {
@@ -196,7 +196,7 @@ public class AppUserService implements UserDetailsService{
         appUser.setPasswordResetTokenCreatedAt(LocalDateTime.now());
         appUserRepository.save(appUser);
 
-        mailService.sendPasswordResetTokenEmail(appUser);
+        mailService.sendPasswordResetTokenEmail(appUser, origin);
     }
     
     public AppUser resetPassword(AppUser appUser, String newPassword) {
