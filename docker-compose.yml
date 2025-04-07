@@ -6,8 +6,10 @@ services:
     image: mariadb:latest
     container_name: mariadb
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}  # Using password from .env
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}  # Using password from .env
       MYSQL_DATABASE: authframework
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     networks:
       - authframework
     ports:
